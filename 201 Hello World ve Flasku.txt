@@ -6,3 +6,14 @@ Aktivace v Linuxu zlobí přímo v adresáři vagrant. Tedy aktivuji mimo něj:
 Výsledek:
 (C:\Users\bruzenak\Development\Python_Web_Development4.4env) vagrant@ubuntu-xenial:/vagrant$
 
+Nainstaloval jsem Flask (pip install flask)
+
+Flask 2.0.3
+Werkzeug 2.0.3
+
+Pomocí ifconfig v linuxu zjistím, na jakou adresu se budu připojovat (v práci je to 192.168.20.165)
+
+Nastavím v linuxu export FLASK_APP=app.py
+
+Aplikaci spouštím "flask run --host 192.168.20.165"
+
