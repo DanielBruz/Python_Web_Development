@@ -1,0 +1,8 @@
+Vagrant synchronizuje náš lokální adresář projektu s virtuálním adresářem na Linux serveru.
+
+Aktivace v Linuxu zlobí přímo v adresáři vagrant. Tedy aktivuji mimo něj:
+ . /vagrant/venv/Scripts/activate
+
+Výsledek:
+(C:\Users\bruzenak\Development\Python_Web_Development4.4env) vagrant@ubuntu-xenial:/vagrant$
+
