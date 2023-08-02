@@ -17,3 +17,17 @@ Nastavím v linuxu export FLASK_APP=app.py
 
 Aplikaci spouštím "flask run --host 192.168.20.165"
 
+---
+
+Lepší (univerzálnější) způsob je ale pomocí scriptu v run.py:
+
+from app import flask_app
+
+if __name__ == "__main__":
+    debug = False
+    host = "192.168.20.165"
+    flask_app.run(host, debug=debug)
+
+pustím pomocí "python3 run.py"
+
+
