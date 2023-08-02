@@ -9,3 +9,37 @@ Pár linkov na stiahnutie nástrojov:
 
 ---
 
+1. Nainstalujeme Vagrand (ve svém adresáři pro projekt spustím v terminálu "vagrand init"
+    Zeditujeme náš Vagrandfile:
+
+    Vagrant.configure("2") do |config|
+    config.vm.box = "ubuntu/xenial64"
+    config.vm.network "public_network"
+    config.vm.provider "virtualbox" do |vb|
+        vb.gui = true
+        vb.memory = 2048
+    end
+end
+
+2. Nainstalujeme VirtualBox a do něho Vagrant pomocí "vagrant up" nainstaluje Linux.
+
+3. připojím se na svojí virtuální mašinu pomocí "vagrant ssh"
+(login: vagrant / vagrant)
+
+4. Jak dostanu soubory svého projektu do této virtuální mašiny? Vagrant to vyřešil za nás.
+Jsou sdílené do složky /vagrant/, tedy zadám cd /vagrant/
+
+5. Vyzkouším:
+touch foo (vytvořím soubor foo)
+cat foo (zobrazím soubor foo)
+rm foo (odstraním soubor foo)
+
+6. Mám nastavená práva sudo, tedy admnministrátorská, tedy neptá se mě na heslo. (uživatel je vagrant)
+
+7. Poznámka: smazání obrazovky v terminálu je CTRL+L
+
+8. Mám nainstalovaný na Linux serveru Python 3.6.9 a PIP 21.3.1 a virtualenv 20.17.1
+
+
+
+

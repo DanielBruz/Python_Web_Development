@@ -1,0 +1,15 @@
+101 Úvod do web developmentu:
+
+- ze strany klienta = request
+- ze strany serveru = response
+- frontend (HTML, CSS, javascript)
+- backend (databáze, zpracování požadavků klienta, parsování atp.)
+- backend:
+    - pro ulehčení používáme webový framework (obsahuje hotové nástroje, abychom je nemuseli programovat)
+    - jsou založené na architektuře MVC (Model View Controller)
+        - model = naše data (databáze)
+        - controller = kontroluje, která stránka se zobrazí, vytáhne data z fdatabáze a předá je do View
+        - view = zodpovědný za vygenerování naší HTML stránky na základě našich dat a pošle je klientovi
+    - budeme používat Flask microframework (znalosti usnadní přesun třeba k Django frameworku)
+
+

@@ -1,0 +1,16 @@
+103 Prečo riešiť vývojové prostredie?
+
+Prečo sa vôbec zaoberať vývojovým prostredím? Šak nejako si to "rozbehám" na svojom kompe a pohodka. Môžem programovať.
+To je síce fajn, ale dnes sú veci oveľa komplexnejšie. Veľa pohyblivých častí a veci sa vedia veľmi rýchlo pokaziť.
+Chcem aby si od začiatku šiel správnou cestou a vybudoval si dobré návyky.
+Nehovorím, že moje riešenie je to najlepšie. To vôbec nie. Každé riešenie je prispôsobené na danú úlohu / situáciu /
+potreby inidividuála. Takže nieje dôležité biť sa za "správne" riešenie ale akceptovať, že vývojové prostredie je
+dôležité a treba o tom vedieť.
+Ja sa snažím priblížiť svoje vývojové prostredie čo najbližšie produkčnému prostrediu.
+Toto je tiež jeden zo základných princípov Continuous Delivery.
+
+- produkční prostředí se mění, mění se verze knihoven Pythonu, přidávám aplikace (např. Open Office) atp.
+    Abychom eliminovali vliv změn tohoto turbulentního prostředí, musím používat konzistentní vývojové
+    prostředí co nejbližší produkčnímu prostředí. Cílem je, aby aplikace běžela i po změnách.
+
+

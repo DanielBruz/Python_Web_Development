@@ -1,0 +1,17 @@
+- web aplikace poběží na klientovi, kde jí programuji, dále na serveru, nebo také v cloudu.
+- klient používá prohlížeč. Posílá requesty a přijímá responsy.
+- na druhé straně budeme mít virtuální prostředí VirtualBox, kde mi běží Linux a mám tam nainstalované další nástroje:
+    - databáze (třeba sqlite)
+    - message broker (např. rabbitMQ)
+    - nástroj pro vykonávání úloh na pozadí (např. celery)
+
+    Vývojové prostředí:
+    - prohlížeč pošle nějaký request přes port 5000, ten zpracuje aplikace werkzeug (WSGI = Web server Gateway
+     Interface), můj kódd běží ve virtuálním prostředí virtualenv na frameworku Flask, pak WSGI přistupuje do databáze,
+     posílá zprávy do message brokeru a na pozadí vykonává nějaké úlohy, které se také vykonávají v mém zdrojovém kódu.
+
+    Produkční prostředí:
+    - klient posílá requesty a přijímá responsy přes HTTP protokol a na serverové straně přistupuje přes port 80.
+    - na serverové straně v operačním systému běží webový server(nginx), wsgi server(uWSGI), databáze(sqlite),
+        noSQL broker message broker(rabbitMQ), úlohy na pozadí(celery), a Flask ve virtualenv.
+    -
