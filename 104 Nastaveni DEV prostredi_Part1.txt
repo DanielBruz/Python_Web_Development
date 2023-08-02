@@ -1,0 +1,11 @@
+Vim ako IDE pre Python 👉 https://realpython.com/vim-and-python-a-match-made-in-heaven/
+
+Pár linkov na stiahnutie nástrojov:
+
+    Vagrant download
+    Virtual Box download
+    Python 3.6 install
+    PIP install
+
+---
+
