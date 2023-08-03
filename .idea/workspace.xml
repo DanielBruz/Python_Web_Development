@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d885b249-615f-4d14-a256-9339034ea233" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Komentare_k_lekcim/202 URL routing.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Komentare_k_lekcim/203 Markdown blog platforma.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Komentare_k_lekcim/204 Zakladni HTML, CSS.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Komentare_k_lekcim/Komentar_k_App.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Komentare_k_lekcim/Zaloha/app_pred HTML_aplikaci.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mdblog/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mdblog/static/css/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mdblog/templates/about.jinja" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mdblog/templates/welcome_page.jinja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/101 Úvod do web developmentu.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/101 Úvod do web developmentu.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/102 - Vyvojove_prostredi.png" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/102 - Vyvojove_prostredi.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/102 - produkcni_prostredi.png" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/102 - produkcni_prostredi.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/102 Architektura webu.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/102 Architektura webu.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/103 - Vyvojove prostredi.png" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/103 - Vyvojove prostredi.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/103 Proc resit vyvojove prostredi.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/103 Proc resit vyvojove prostredi.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/104 Nastaveni DEV prostredi_Part1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/104 Nastaveni DEV prostredi_Part1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/105 Nastaveni DEV prostredi_Part2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/105 Nastaveni DEV prostredi_Part2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/201 Hello World ve Flasku.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/201 Hello World ve Flasku.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/201 Vyvojove prostredi.png" beforeDir="false" afterPath="$PROJECT_DIR$/Komentare_k_lekcim/201 Vyvojove prostredi.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2TPxCWsQqlOSuSNerB3Y4MPjnsU" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bruzenak\Development\Python_Web_Development\Komentare_k_lekcim\Zaloha" />
+      <recent name="C:\Users\bruzenak\Development\Python_Web_Development\mdblog" />
+      <recent name="C:\Users\bruzenak\Development\Python_Web_Development\static\css" />
+      <recent name="C:\Users\bruzenak\Development\Python_Web_Development\Komentare_k_lekcim" />
+      <recent name="C:\Users\bruzenak\Development\Python_Web_Development\Komnentare_k_lekcim" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d885b249-615f-4d14-a256-9339034ea233" name="Changes" comment="" />
+      <created>1690958389890</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1690958389890</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>

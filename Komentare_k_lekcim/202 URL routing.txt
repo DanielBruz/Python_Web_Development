@@ -1,0 +1,68 @@
+Např. zde:
+
+https://www.geeksforgeeks.org/flask-app-routing/
+https://pythonbasics.org/flask-tutorial-routes/
+
+--------------------------------------------------------------------------------------------------------
+Vytvořím si další funkci v app.py: (za admin dávám i /. Je to lepší.)
+@flask_app.route("/admin/")
+def view_admin():
+    return "Hello Admin!"
+
+--------------------------------------------------------------------------------------------------------
+Dále dám nějakou dynamickou část: hodnota name v URL se mi přenese do proměnné name.
+string konvertuje proměnnou name na string.
+@flask_app.route("/admin/<string:name>/")
+def view_admin_name(name):
+    return "Hello {}".format(name)
+
+--------------------------------------------------------------------------------------------------------
+view_article(art_id): tato funkce načte ID položky zboží.
+Když dám do URL jinou hodnotu, nezpbrazí se, protože čeká na int.
+Konvertory int, float atp., tak více v dokumentaci Flask:
+https://flask.palletsprojects.com/en/2.3.x/api/#flask.Flask.route
+
+view_article_schwifty(art_id, foo): doplnil jsem do URL další proměnnou foo.
+
+string: accepts any text without a slash (the default)
+int: accepts integers
+float: like int but for floating point values
+path: like the default but also accepts slashes
+any: matches one of the items provided
+uuid: accepts UUID strings
+
+--------------------------------------------------------------------------------------------------------
+Dále můžeme tyto proměnné zpracovávat v konzoli:
+
+from app import *   : naimportuje všechny proměnné a definice z mé aplikace.
+from flask import url_for   : umožňuje nám generovat URL adresy
+
+with flask_app.test_request_context():  # vygeneruje mi URL pro moje funkce
+print(url_for("index"))
+print(url_for("view_admin"))
+print(url_for("view_admin_name", name="Daniel"))
+print(url_for("view_article", art_id=150))
+print(url_for("view_article_schwifty", art_id=150, foo="24.5"))
+
+Výstup:
+/
+/admin/
+/admin/Daniel/
+/article/150/
+/article/150/schwifty/24.5/
+
+--------------------------------------------------------------------------------------------------------
+Můžeme definovat i HTTP metody (např. pro zadávání a získávání dat z formulářů):
+@flask_app.route("/admin/<string:name>/", methods=["GET", "POST"])
+
+--------------------------------------------------------------------------------------------------------
+Abychom při každé změně nemuseli spouštět "python3 run.py", spustíme si debug mód, tento mód změny zjistí
+a znovu spustí naší aplikaci. Dostáváme instantní feedback. V souboru run.py změníme debug na True.
+
+
+
+
+
+
+
+

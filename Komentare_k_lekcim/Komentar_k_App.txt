@@ -1,0 +1,56 @@
+Tento kód vytváří instanci třídy Flask ze frameworku Flask a přiřazuje ji proměnné flask_app.
+
+Flask je základní třídou frameworku Flask, která slouží k vytvoření aplikace.
+Při vytváření instance třídy Flask musíme zadat jeden povinný argument, kterým je název balíčku nebo modulu,
+ve kterém je aplikace spuštěna. Tento argument je obvykle reprezentován proměnnou __name__, která obsahuje
+název aktuálního modulu nebo balíčku.
+
+Pokud máme soubor s názvem app.py, pak bude __name__ obsahovat hodnotu "__main__" a tedy kód Flask(__name__)
+vytvoří instanci třídy Flask s názvem aplikace nastaveným na "__main__".
+
+Třaba takto:
+
+from flask import Flask
+
+flask_app = Flask(__name__)
+
+@flask_app.route('/')
+def hello():
+    return "Hello, World!"
+
+if __name__ == "__main__":
+    flask_app.run()
+
+V tomto případě jsme vytvořili jednoduchou webovou aplikaci pomocí frameworku Flask.
+Po spuštění aplikace se na adrese http://localhost:5000/ zobrazí text "Hello, World!".
+
+------------------------------------------------------------------------------------------------------------------
+
+@flask_app.route("/")
+
+= dekorátor = tím dokážame změnit funkci jiné funkce; dekorátor neřeší, co je uvnitř konkrétní funkce.
+(Zde dekorátor spojí naší funkci s URL adresou.)
+V tomto případě se používá k mapování URL cesty na konkrétní funkci (tzv. view funkci), která bude zpracovávat
+požadavky na tuto cestu.
+Konkrétně v tomto případě @flask_app.route("/") říká, že funkce pod touto deklarací (v následujícím řádku) bude
+zpracovávat požadavky na hlavní URL cestu (/) naší webové aplikace. Kdykoliv uživatel zavolá v prohlížeči adresu
+http://localhost:5000/ (předpokládáme, že aplikace běží na lokálním počítači na portu 5000),
+bude tato view funkce vykonána.
+
+Například ve výše uvedém kódu byla view funkce nazvána hello, a tedy když uživatel navštíví adresu
+http://localhost:5000/, dojde k vykonání této funkce a na stránce se zobrazí text "Hello, World!".
+
+Dekorátor @flask_app.route("/") může být použit také s dalšími parametry pro specifikaci různých URL cest, například:
+
+@flask_app.route("/")
+def hello():
+    return "Hello, World!"
+
+@flask_app.route("/about")
+def about():
+    return "This is the about page."
+
+V tomto příkladu máme dvě view funkce, jedna pro hlavní URL cestu / a druhá pro cestu /about.
+Každá z těchto funkcí bude zpracovávat požadavky na příslušnou URL cestu.
+
+---------------------------------------------------------------------------------------------------------------------

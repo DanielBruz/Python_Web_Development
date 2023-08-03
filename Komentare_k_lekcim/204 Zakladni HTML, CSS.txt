@@ -1,0 +1,55 @@
+Jinja Template systém: http://jinja.pocoo.org/
+
+Zdrojáky: https://github.com/sjudeu/flask_project/tree/34a417855b24173c6ecc1c029fa46524b4ffe67e
+
+Doplnil jsem folder mdblog (z Githubu)
+
+-------------------------------------------------------------------------------------------------------
+1. Uložil jsem si původní výukovou app.py.
+
+2. Udělal jsem novou app.py:
+@flask_app.route("/")
+def index():
+    return "<html> <body> <h1> Welcome Intruder </h1> </body> </html>"
+Tohle by bylo velmi pracné, proto:
+
+3. Založím adresář templates.
+4. vytvořím si soubor welcome_page.html
+5. Zkopíroval jsem si html kód z welcome_page.jinja v mdblog/templates/ a zatím jsem zakomentoval CSS
+6. Do app.py: from flask import render_template; return render_template("welcome_page.html")
+render_template umí renderovat nejen html ale i tzv. jinja template. Jinja se sysém, který umí dynamicky generovat,
+tedy renderovat html stránky. Některé elementy budou vytvořeny dynamicky.
+Takový systém se používá téměř v každém webovém frameworku. Třeba Django či PHP používají svůj systém.
+Jinja dokument se renderuje jako html dokument, ale můžeme mu podhodit nějaké údaje.
+7. Změním html koncovku na jinja. Nemusel bych uvádět žádnou, ale takto poznám, že používám jinja templatovací systém.
+8. Jinja dynamicky mění, tedy do templatu dá do "main" položku {{ text }} a upravím i app.py
+(return render_template("welcome_page.jinja", text=" ......")
+9. Vrátím jinja template a app.py do původního stavu.
+10. html tagy v dokumentu = sémantické html. Místo generických <DIV> dám např. <NAV>, a to mi ukazuje,
+že v bloku NAV bude nějaká navigace atp.
+11. Pokusím se o nějaké stylování - zatím ho hodím do hlavičky Head.
+(Toto dám až později, až bude style jako samostatný soubor:
+<!-- <link rel="stylesheet" type="text/css" href={{url_for("static", filename="css/main.css")}}> --> )
+
+12. Ale takto to není správně - raději si vytvořím pro statické stylování adresář static a do něj adresáře
+css a js. Do css vytvořím main.css jako soubor pro hlavní stylování a tam stylování přesunu.
+Do jinja templatu místo toho vložím:
+<link rel="stylesheet" type="text/css" href={{url_for("static", filename="css/main.css")}}>
+V prohlížeči se mohu podívat i na zdrojový kód stránky, kde se odkazuje na:
+http://192.168.20.165:5000/static/css/main.css (tu mi vygeneroval Flask pomocí URL_FOR)
+
+13. Vytvořím další html stránky v app.py. Přejmenuji si funkci index na view_welcome_page. A vytvořím view_about().
+A vytvořím about.jinja. Soubor je skoro stejný jako welcome_page.
+
+14. Protože se mi začali v mém folderu množit různé adresáře aa soubory, vytvořím si pythonovský balíček mdblog.
+Přesunu tam statis, templates a app.py
+mdblog je vlastně pythonovský modul, který bude reprezentovat naší aplikaci.
+app.py = hlavní kontrolér aplikace
+Změním run.py na "from mdblog.app import flask_app"
+
+
+
+
+
+
+

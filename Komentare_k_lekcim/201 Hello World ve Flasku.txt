@@ -1,6 +1,10 @@
 Vagrant synchronizuje náš lokální adresář projektu s virtuálním adresářem na Linux serveru.
 
-Aktivace v Linuxu zlobí přímo v adresáři vagrant. Tedy aktivuji mimo něj:
+Připojím se na virtuální Linux pomocí vagrant ssh.
+
+Aktivujeme naše virtuální prostředí virtualenv.
+
+Aktivace v Linuxu zlobí přímo v adresáři vagrant. Tedy aktivuji mimo něj: (klidně přes terminál v režimu SSH)
  . /vagrant/venv/Scripts/activate
 
 Výsledek:

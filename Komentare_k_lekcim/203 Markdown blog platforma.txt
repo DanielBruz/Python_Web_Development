@@ -1,0 +1,21 @@
+https://en.wikipedia.org/wiki/Markdown
+https://daringfireball.net/projects/markdown/syntax
+https://www.markdownguide.org/
+
+Markdown is a lightweight markup language for creating formatted text using a plain-text editor.
+
+------------------------------------------------------------------------------------------------------------
+Uděláme si webovou aplikaci. Vlastní kódovací platformu. Platforma bude pracovat s Markdown.
+
+Co budeme potřebovat?
+* welcome page (úvodní stránku)
+* articles page (moje články)
+* admin page (stránku pro administraci, tedy budeme potřebovat i databázi)
+* database?
+* session management (budeme se muset umět přihlásit jako admin, k přidávání článků atp.)
+* newsletter (vždy když přidám nový článek, pošlu oznámení na můj seznam emailových adres)
+* background tasks (odesílání mailů bude probíhat na pozadí, tedy budeme potřebovat nějakou knihovnu (celery?)
+* markdown editor (pro psaní článků. Budeme potřebovat nějaký javascript, protože editor musí běžet na frontendu.)
+* CSS framework (když už řešíme frontend. Třeba framework bootstrap)
+
+
