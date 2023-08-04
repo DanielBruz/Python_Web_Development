@@ -1,0 +1,57 @@
+
+    Vyskúšaj si HTML formáláre tu: https://www.w3schools.com/html/html_forms.asp
+    Čo sú to cookies: https://en.wikipedia.org/wiki/HTTP_cookie
+    Cookies vo Flasku: http://flask.pocoo.org/docs/0.12/quickstart/#cookies
+    flask request form: http://flask.pocoo.org/docs/0.12/quickstart/#the-request-object
+
+-----------------------------------------------------------------------------------------------------------
+1. Vytvoříme view_login v app.py. V login.jinja nastavím form, label a input. Do form přidám toto, aby mi to
+fungovalo: action="{{ url_for("login_user") }}" method="post"
+Metoda GET zobrazuje zadání v URL adrese. Metoda POST udělá normální POST request a pošle ho na adresu generovanou v
+url_for("login_user"), na které budeme poslouchat a čekat na zadání.
+name="username" atp. - pojmenujeme si atribut, podle kterého budeme hodnoty identifikovat.
+Do funkce view_login v app.py doplním methods=["GET", "POST"]. V app.py doplním "from flask import request".
+
+2. Práce se zadanými daty ve Flask pomocí metody REQUEST: Funkce login_user().
+view_login() zpracuje metodu GET a login_user() zpracuje metodu POST. V login.jinja upravím adresu na
+url_for("login_user"). V login_user() použijeme metodu REDIRECT, která vytvoří HTTP response se status code 302,
+tedy přesměrování na jinou stránku. Doplním "from flask import redirect". A doplním "from flask import url_for",
+jinak bych na html stránce dostal chybu, že url_for není definováno.
+Momentálně mi ale nic nebrání překliknout se na stránce na "Admin":
+
+3. Když se uživatel přihlásí, mi si to uložíme do session managementu, a když bude chtít někdo na naší admin stránku,
+zkontrolujeme, jestli už je přihlášený. Tedy ověříme, jestli existuje nějaká session, která ukazuje, že jde stále
+o stejného uživatele.
+Session management: server vidí jen requesty, které přicházejí z určité IP adresy a podle toho není schopen zjistit,
+jestli jde o toho stejného uživatele, resp. o ten stejný prohlížeč. Na identifikaci použijeme cookies. Tyto cookies
+se přenášejí z každým requestem a podle toho lze ověřit, že jde o toho stejného uživatele. Vzniká tak trvalejší vztah =
+= session.
+Do app.py si naimportujeme "from flask import session". Do login_user() přidám "session["logged"] = True", že jsem
+se úspěšně přihlásil. Session je obyčejný dictionary, do kterého si mohu definovat klíč, jaký chci, třeba "logged".
+Pak přejdu do view_admin() a :
+    if "logged" not in session:
+        return redirect(url_for("view_login"))  - když klikne na Admin a není přihlášený, přesměruje ho to na login.
+    return render_template("admin.jinja")
+Když ale zadám jméno a heslo, a kliknu na login, dostávám chybu: aby jsme mohli používat session management, potřebujeme
+tzv. SECRET_KEY. Flask používá cookies, aby ověřil, že jde o stejného uživatele, ale cookies zůstávají na straně
+klienta, tak jim nemůžeme důvěřovat. Musíme je zašifrovat. Na zašifrování potřebujeme SECRET_KEY.
+V konzoli jsem si zadal "import os" a "os.urandom(24)". Dostal jsem náhodný klíč a zkopíroval jsem ho do app.py do
+flask_app.secret_key =....Když se pak přihlásím pomocí admin/admin, Flask si pamatuje můj prohlížeč a já budu
+stále přihlášený.
+
+V prohlížeči FireFox se podívám na cookies: Nástroje / Nástroje prohlížeče / Nástroje pro webové vývojáře / Úložiště /
+Cookies.
+
+4. Uděláme v app.py funkci "logout_user". Z dictionary smažu hodnotu, že jsem přihlášený: session.pop("logged")
+a vrátím uživatele na view_welcome_page. Doplním tlačítko na odhlášení: upravím si _nav.jinja:
+      {% if "logged" in session %}
+        <li>
+            <form action="{{ url_for("logout_user") }}" method="post">
+                <input type="submit" value="logout">
+            </form>
+        </li>
+      {% endif %}
+Poznámka: dictionary SESSION se mi automaticky předává přes všechny templaty. Nemusím řešit žádný include atp.
+Ještě doplním ".nav form" do main.css
+
+
