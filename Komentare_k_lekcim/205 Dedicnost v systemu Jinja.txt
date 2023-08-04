@@ -1,0 +1,63 @@
+Dokumentácia k Jinja dedičnosti: http://jinja.pocoo.org/docs/2.10/templates/#template-inheritance
+Tu je aj fajn článok o viacerých funkciách Jinja: https://realpython.com/primer-on-jinja-templating/
+Zdrojáky: https://github.com/sjudeu/flask_project/tree/42004fd0e774f1561663f40e138ac88bc21cade4
+
+----------------------------------------------------------------------------------------------------
+Jinja:
+Vytvořím si hlavní template a pomocí dalších souborů ho budu doplňovat jen o to, kde se jednotlivé stránky liší.
+Vytvořím si _main.jinja - hlavní template, pomocé "_" upozorním na to, že jde o nějaký hlavní template.
+Zkopíruji si do něj obsah welcome_page a začnu nahrazovat části, kde se mmoje stránky liší. Syntaxe:
+{% ... %} Statements které negenerují žádný obsah, žádný výstup.
+{{ ... }} Toto bude na výstupu "print"
+{# ... #} Komentáře nezahrnuté do výstupu
+# ... ## Jednořádkové komentáře
+
+Radikálně upravím svou welcome_page.jinja
+Smažu bloky, které budu doplňovat z mojí template page.
+Na prvním řádku musím uvést, že budu kódem ve welcome_page.jinja extendovat, doplňovat mou _main.jinja.
+{% extends "_main.jinja" %}
+Pak definuji bloky, které budeme v templatu nahrazovat. Třeba:
+{% block title %} Welcome to Markdown blog {% endblock %}
+
+Pak nahradím bloky i v about.jinja
+
+Jenda z výhod je, že nemusím měnit navigaci na více místech, jen např. v _nav.jinja
+
+Založím si další jinja stránky a příslušně upravím app.py a _main.jinja
+
+Potřebujeme i databázi - uděláme to jednoduše. Založíme si soubor database.py
+Doplním si do ní v dictionary nějaká data pro "Articles" (články).
+Do app.py doplním from .database import articles
+Do view_articles() doplním return render_template("articles.jinja", articles=articles.items())
+
+Upravujeme articles.jinja: vytvořím si html list pomocí <ul>; procházím (for)/(end for) jednotlivé články v articles;
+pro každý article vytvořím list. Proměnná article je normální pythonovské dictionary se syntaxí article["title"].
+Syntaxe jinja je article.title. Mohlo by se stát, že databáze neobsahuje žádná data, tedy doplním do articles.jinja:
+{% if articles %}
+    ....
+{% else %}
+    <p> No Articles :( </p>
+{% endif %}
+
+Formulace "| truncate(100)" nám ořeže string na maximální délku. Jinja doplní do výpisu na konci článku "...".
+
+Doplníme stránku na zobrazení jednoho článku article.jinja a do app.py přidám view_article(art_id)
+Ovšem když uživatel do URL zadá číslo článku třeba /articles/1000, zobrazí se mu stránka s chybami a to je
+nebezpečné. Ošetříme to v app.py takto: article = articles.get(art_id), když tam takové číslo článku není, vrací
+funkce "None". A upravím formulaci takto:
+    if article:
+        return render_template("article.jinja", article=article)
+    return render_template("article_not_found.jinja", art_id=art_id)
+A založím si template "article_not_found.jinja".
+A v "articles.jinja" musím doplnit link pro každý článek, který mě přesměruje na stránku článku "article.jinja":
+Místo  <h2> {{ article.title }} </h2> dám:
+<h2><a href="{{ url_for("view_article", art_id=id) }}"> {{ article.title }} </a></h2>
+
+----------------------------------------------------------------------------------------------------------------
+Doplním ještě jednu zajímavou funkci do našeho templatu _main. A to include.
+{% include "_head.jinja" %} atp. A založím příslušné soubory, do kterých přesunu původní obsah dané čáti z _main.
+Mám pak více malých souborů místo jednoho obrovského templatu.
+
+----------------------------------------------------------------------------------------------------------------
+Další zajímavou funkcionalitou Jinja jsou makra, ale ty v naší aplikaci nebudeme používat.
+
