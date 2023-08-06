@@ -24,7 +24,7 @@ Cesta k databázi:
 Naimportuji si SQLite3.
 Na konci dám komentář ## UTILS a vytvořím:
     - funkci pro připojování k databázi: connect_db() (do instance databáze rv dám rv.row_factory = sglite3.Row,
-    tato funkce nám při přečtení záznamu z tabulky vrátí pythonovské dictionary, které můžu bez ptoblémů číst. Jinak
+    tato funkce nám při přečtení záznamu z tabulky vrátí pythonovské dictionary, které můžu bez problémů číst. Jinak
     by šlo o surová data ve formě Tuple.)
     - vytváření spojení do db pro každý request by bylo neefektivní, proto se připojíme k databázi jen jednou
      na začátku. Budeme si ho udržovat do konce běhu programu v nějaké globální proměnné. Když ale na začátku
@@ -34,12 +34,13 @@ Na konci dám komentář ## UTILS a vytvořím:
     g je proměnná, která udržuje např. naše spojení s databází. Na konci appky definujeme spojení s db pomocí líného
     loaderu (lazy loader). Funkce get_db(). Když kontext naší db nebude v proměnné g obsahovat sqlite_db, pak ho
     nastavím v řádku g.sqlite_db. Tedy nastavím připojení k db. Když tam je, jen vracím z funkce g.sqlite_db.
-    - korektní uzavření db ve funkci close_db() s dekorátorem @flask_app.teardown_appcontext, který znamená, že naše
-    aplikace končí = tedy uzavírám db.
+    - korektní uzavření db ve funkci close_db() s dekorátorem @flask_app.teardown_appcontext, který znamená, že se
+    nacházím v aplikačním kontextu a v místě, kde aplikace končí = tedy uzavírám db.
     - teď musíme db vytvořit, inicializovat. Na serveru nemám nainstalovaný sqlite3, tedy nainstaluji:
     sudo apt-get install sqlite3
     založím si databázi blog.db a do ní budu aplikovat schema.db: sqlite3 /vagrant/blog.db < mdblog/schema.sql
     V našem projektu vznikl soubor blog.db.
+    !!!:
     Budeme ale vytvářet db druhým způsobem: uděláme funkci init_db(). Jako argument dostane tuto aplikaci app.
     Vytvořím kontext naší aplikace a v tomto kontextu zavolám funkci get_db(), otevřu soubor schema.sql pro čtení.
     Uložím si ho do proměnné fp, jako file pointer. Pak přečtu celý soubor, ten se mi uloží do mého kurzoru db.cursor()
@@ -50,6 +51,8 @@ Naimportuji sys a init_db. Udělám funkce start() a init(). Když bylo při sta
 tam tedy i nějaký command. Ten si uložím do proměnné command. Když pustím run.py bez argumentů, vypíše se mi hláška z
 konce funkce. init mi vytvoří databázi blog.py - tu si mohu zkontrolovat pomocí příkazů sqlite, ale udělám to vizuálně
 a nainstaluji si "DB browser for SQLite".
+
+
 
 
 
