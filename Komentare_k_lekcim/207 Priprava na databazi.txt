@@ -1,0 +1,55 @@
+
+    Domovská stránka sqlite: https://www.sqlite.org/index.html
+    sqlite knižnica pre python: https://docs.python.org/3/library/sqlite3.html
+    tajomná premenná g je aplikačný kontext: https://flask.palletsprojects.com/en/latest/appcontext/
+
+----------------------------------------------------------------------------------------------------------
+Vytvoříme si schéma databáze, připojíme jí přes naší aplikaci a budeme z ní číst a do ní zapisovat.
+Běžně se to dělá tak, že databáze i aplikace běží na stejném serveru.
+Použijeme SQLite databázi, nepotřebujeme žádný server. Je uložená v jednom souboru na disku.
+Pro složitější řešení je lépe použít profi databáze jako je MySQL, Postgre atp.
+
+Schéma:
+- vytvořím soubor schema.sql
+- drop: tabulku vymažu, abych měl jistotu, že je prázdná.
+- create: vytvořím tabulku
+- id: (integer) nový sloupec bude to primární klíč.
+    Autoincrement = bude se automaticky incrementovat pokaždé, když vytvořím nový záznam.
+- sloupec titulek: (text) nesmí být prázdný.
+- sloupec obsah: (text) nesmí být prázdný.
+- datatypes jsou uvedeny v dokumentaci k SQLite.
+
+Cesta k databázi:
+- app.py: na začátek pod importy doplním DATABASE = "/vagrant/blog.db". Velkými písmeny, protože jde o konstantu.
+Naimportuji si SQLite3.
+Na konci dám komentář ## UTILS a vytvořím:
+    - funkci pro připojování k databázi: connect_db() (do instance databáze rv dám rv.row_factory = sglite3.Row,
+    tato funkce nám při přečtení záznamu z tabulky vrátí pythonovské dictionary, které můžu bez ptoblémů číst. Jinak
+    by šlo o surová data ve formě Tuple.)
+    - vytváření spojení do db pro každý request by bylo neefektivní, proto se připojíme k databázi jen jednou
+     na začátku. Budeme si ho udržovat do konce běhu programu v nějaké globální proměnné. Když ale na začátku
+     uděláme globální proměnnou třeba sqlite_db = connect_db() a budeme jí pak používat v aplikaci, brzy narazíme
+     na to, že SQLite neumí pracovat s vícero threads. Donutilo by mě to udělat řešení, které rovnou použijeme:
+    - Flask má řešení pomocí kontextů a zná dva typy: Request Context a App Context. Provedeme from flask import g.
+    g je proměnná, která udržuje např. naše spojení s databází. Na konci appky definujeme spojení s db pomocí líného
+    loaderu (lazy loader). Funkce get_db(). Když kontext naší db nebude v proměnné g obsahovat sqlite_db, pak ho
+    nastavím v řádku g.sqlite_db. Tedy nastavím připojení k db. Když tam je, jen vracím z funkce g.sqlite_db.
+    - korektní uzavření db ve funkci close_db() s dekorátorem @flask_app.teardown_appcontext, který znamená, že naše
+    aplikace končí = tedy uzavírám db.
+    - teď musíme db vytvořit, inicializovat. Na serveru nemám nainstalovaný sqlite3, tedy nainstaluji:
+    sudo apt-get install sqlite3
+    založím si databázi blog.db a do ní budu aplikovat schema.db: sqlite3 /vagrant/blog.db < mdblog/schema.sql
+    V našem projektu vznikl soubor blog.db.
+    Budeme ale vytvářet db druhým způsobem: uděláme funkci init_db(). Jako argument dostane tuto aplikaci app.
+    Vytvořím kontext naší aplikace a v tomto kontextu zavolám funkci get_db(), otevřu soubor schema.sql pro čtení.
+    Uložím si ho do proměnné fp, jako file pointer. Pak přečtu celý soubor, ten se mi uloží do mého kurzoru db.cursor()
+    a executescript vykoná to, co se přečte z toho souboru. Všechny moje změny se pak zapíšou do db pomocí commit.
+
+Upravím si run.py, abych mohl zadávat "start" pro start mé aplikace nebo "init" pro inicializaci mé db.
+Naimportuji sys a init_db. Udělám funkce start() a init(). Když bylo při startu run.py více než 1 argument, byl
+tam tedy i nějaký command. Ten si uložím do proměnné command. Když pustím run.py bez argumentů, vypíše se mi hláška z
+konce funkce. init mi vytvoří databázi blog.py - tu si mohu zkontrolovat pomocí příkazů sqlite, ale udělám to vizuálně
+a nainstaluji si "DB browser for SQLite".
+
+
+
