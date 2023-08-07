@@ -10,4 +10,46 @@
 
 -----------------------------------------------------------------------------------------------------------------
 1. Smažu z app.py fake databázi from .database import articles
-2. Doplním
+2. Doplním do view_articles() instanci naší databáze db = get_db() a kurzor cur = db.execute(). Do execute už píšu
+normální databázové query select. Do proměnné articles si natáhnu všechny záznamy pomocí cur.fetchall(). Z return smažu
+.items(). To patřilo k mé staré databázi. A pomocí articles = articles podsunu mému templatu articles.jinja všechny
+položky.
+3. Upravíme zobrazování jednoho článku ve view_article. Pomocí db = get_db() získám handle pro mojí databázi. Nastavím
+kurzor cur, kde id_čko se bude rovnat nějaké hodnotě, kterou si tam potom vložíme jako [art_id]. *= všechny hodnoty v
+tabulce. Do proměnné article si místo articles.get(art_id) uložím raději cur.fetchone(), tedy chceme první článek.
+A zbytek nechám, jak je.
+4. Musím upravit template articles, protože jsem tam měl fake databázi a teď budeme mít jiný formát dat. Vymažu id z
+{% for id, article ... IDčko získáme nahrazením url_for("view_article", art_id=id) takto art_id=article.id
+5. Uděláme si kontrolér (def v app.py) také na přidávání nového článku. Budeme ho přidávat na stejnou url adresu,
+jako je ve view_articles, tedy "/articles/". Doplníme do view_articles metodu GET a nová funkce bude zpracovávat POST
+metodu a bude to funkce "add_article". Do tabulky budu doplňovat title a content pomocí request.form.get().
+Commit zapíše data do databáze. A vracím (return) uživatele na stránku se všemi články.
+6. Zatím nemám vytvořenou stránku pro zadávání článků. Ale chci si to už vyzkoušet, tak na to použiji aplikaci
+Advanced REST client jako add_on do prohlížeče Chrome. Nastavím http://10.0.0.158:5000/articles/ a metodu POST.
+Do BODY dám www-url-form-encoded, tedy že tělo bude obsahivat data nějakého formuláře. Zadám title a hodnotu a
+přidám další parametr, tedy content a hodnotu. A dám SEND do naší aplikace. Ukáže mi případné chyby ve zpracování.
+
+7. Budeme muset změnit konfiguraci naší aplikace. Nepoběží jen na našem PC, ale např. na serveru. Některé konstanty
+máme na tvrdo zadané, třeba DATABASE, SECRET_KEY atp. Oddělíme taková data do adresáře "configs". První soubor
+bude default.py. Hodnoty přenesené do default.py smažu z app.py a volám konfigurák z app.py pomocí
+flask_app.config.from_pyfile...Všechny hodnoty jako password a username budu natahovat z konfiguráku pomocí
+flask_app.config. Dále v connect_db() změním i konstantu DATABASE.
+
+8. flask_app.config.from_pyfile("/vagrant/configs/default.py") se používá takto s pevnou cestou nebo častějí pomocí
+systémové proměnné. V Linux terminálu jde o "echo $PATH". To je proměnná, která je definována v environmentu.
+Nové proměnné si umím udělat pomocí např. "export FOO=Ahoj" a ověřím "echo $FOO". Toto využiji při dodatečné konfiguraci
+aplikace. Tedy načteme data z default.py a do app.py pak zadáme ověření, pokud se v našem operačním systému (os.environ)
+nachází nějaká proměnná "MDBLOG_CONFIG", pak si Flask načte obsah i této proměnné (...from_envvar).
+
+Příklad takové dodatečné konfigurace provedeme v development.py: naše aplikace poběží v různých prostředích = bude muset
+být různě nakonfigurovaná. Tento konfigurák specifikuje moje vývojové prostředí. U produkčního prostředí by byl
+konfigurák např. production.py. Z default.py vyhodím DATABASE. V terminálu si vytvořím novou systémovou proměnnou
+export MDBLOG_CONFIG=/vagrant/configs/development.py a ověřím pomocí echo.
+
+
+
+
+
+
+
+

@@ -7,11 +7,14 @@ from flask import session
 from flask import g
 
 import sqlite3
-
-DATABASE = "/vagrant/blog.db"
+import os
 
 flask_app = Flask(__name__)
-flask_app.secret_key = b'\x8eJ|P7\x8c\xe6X\xb3\x9c\xaf\x17C\xbaz\x17\xbb\xc81`_\xe3\xac\xc2'
+
+flask_app.config.from_pyfile("/vagrant/configs/default.py")
+
+if "MDBLOG_CONFIG" in os.environ:
+    flask_app.config.from_envvar("MDBLOG_CONFIG")
 
 
 @flask_app.route("/")
@@ -31,14 +34,28 @@ def view_admin():
     return render_template("admin.jinja")
 
 
-@flask_app.route("/articles/")
+@flask_app.route("/articles/", methods=["GET"])
 def view_articles():
-    return render_template("articles.jinja", articles=articles.items())
+    db = get_db()
+    cur = db.execute("select * from articles order by id desc")
+    articles = cur.fetchall()
+    return render_template("articles.jinja", articles=articles)
+
+
+@flask_app.route("/articles/", methods=["POST"])
+def add_article():
+    db = get_db()
+    db.execute("insert into articles (title, content) values (?, ?)", [request.form.get("title"),
+                                                                       request.form.get("content")])
+    db.commit()
+    return redirect(url_for("view_articles"))
 
 
 @flask_app.route("/articles/<int:art_id>/")
 def view_article(art_id):
-    article = articles.get(art_id)
+    db = get_db()
+    cur = db.execute("select * from articles where id=(?)", [art_id])
+    article = cur.fetchone()
     if article:
         return render_template("article.jinja", article=article)
     return render_template("article_not_found.jinja", art_id=art_id)
@@ -53,7 +70,7 @@ def view_login():
 def login_user():
     username = request.form["username"]
     password = request.form["password"]
-    if username == "admin" and password == "admin":
+    if username == flask_app.config["USERNAME"] and password == flask_app.config["PASSWORD"]:
         session["logged"] = True
         return redirect(url_for("view_admin"))
     else:

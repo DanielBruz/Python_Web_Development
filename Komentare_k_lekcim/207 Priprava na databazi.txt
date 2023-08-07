@@ -39,7 +39,7 @@ Na konci dám komentář ## UTILS a vytvořím:
     - teď musíme db vytvořit, inicializovat. Na serveru nemám nainstalovaný sqlite3, tedy nainstaluji:
     sudo apt-get install sqlite3
     založím si databázi blog.db a do ní budu aplikovat schema.db: sqlite3 /vagrant/blog.db < mdblog/schema.sql
-    V našem projektu vznikl soubor blog.db.
+    V našem projektu vznikl soubor blog.db. Z příkazového řádku sqlite3 vyskočím pomocí CTRL+D.
     !!!:
     Budeme ale vytvářet db druhým způsobem: uděláme funkci init_db(). Jako argument dostane tuto aplikaci app.
     Vytvořím kontext naší aplikace a v tomto kontextu zavolám funkci get_db(), otevřu soubor schema.sql pro čtení.
