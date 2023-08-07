@@ -1,0 +1,5 @@
+Popri hľadaní zaujímavých článkov ohladom notifikácií som narazil na túto diskusiu:
+https://ux.stackexchange.com/questions/39265/placement-of-flash-growl-notifications-or-messages-in-web-application
+dokumentácia k flashovaniu: https://flask.palletsprojects.com/en/2.3.x/patterns/flashing/
+
+-------------------------------------------------------------------------------------------------------------------

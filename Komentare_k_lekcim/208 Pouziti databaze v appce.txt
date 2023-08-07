@@ -28,6 +28,7 @@ Commit zapíše data do databáze. A vracím (return) uživatele na stránku se 
 Advanced REST client jako add_on do prohlížeče Chrome. Nastavím http://10.0.0.158:5000/articles/ a metodu POST.
 Do BODY dám www-url-form-encoded, tedy že tělo bude obsahivat data nějakého formuláře. Zadám title a hodnotu a
 přidám další parametr, tedy content a hodnotu. A dám SEND do naší aplikace. Ukáže mi případné chyby ve zpracování.
+Náš kód je OK, navíc mi vrací i hodnotu "302 FOUND", tedy že je zde redirect na jinou stránku (view_articles).
 
 7. Budeme muset změnit konfiguraci naší aplikace. Nepoběží jen na našem PC, ale např. na serveru. Některé konstanty
 máme na tvrdo zadané, třeba DATABASE, SECRET_KEY atp. Oddělíme taková data do adresáře "configs". První soubor
