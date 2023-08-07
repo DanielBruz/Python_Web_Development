@@ -6,8 +6,6 @@ from flask import url_for
 from flask import session
 from flask import g
 
-from .database import articles
-
 import sqlite3
 
 DATABASE = "/vagrant/blog.db"

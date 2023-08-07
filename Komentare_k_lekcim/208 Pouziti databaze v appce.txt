@@ -1,0 +1,13 @@
+
+    SQLite Browser: https://sqlitebrowser.org/
+    Advanced Rest Client pre chrome: https://install.advancedrestclient.com/#/features
+    SELECT: https://www.sqlite.org/lang_select.html
+    UPDATE: https://www.sqlite.org/lang_update.html
+    INSERT: https://www.sqlite.org/lang_insert.html
+    DELETE: https://www.sqlite.org/lang_delete.html
+    DROP GTABLE: https://www.sqlite.org/lang_droptable.html
+    Všetky ostatné nájdeš tu: https://www.sqlite.org/lang.html
+
+-----------------------------------------------------------------------------------------------------------------
+1. Smažu z app.py fake databázi from .database import articles
+2. Doplním
