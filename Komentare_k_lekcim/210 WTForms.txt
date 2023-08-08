@@ -1,0 +1,16 @@
+Linky týkajúce sa flask rozšírenia pre formuláre:
+
+    Register všetkých flask rozšírení: http://flask.pocoo.org/extensions/
+    Dokumentácia WTForms: https://wtforms.readthedocs.io/en/stable/
+    Dokumentácia WTForms flask rozšírenia: https://flask-wtf.readthedocs.io/en/1.1.x/
+
+------------------------------------------------------------------------------------------------------------
+Jde o rozšíření na extensions pro Flask. Umí se napíchnout na appku a výrazně změnit její fungování. Ulehčí práci při
+vytváření stránek. Podíváme se na Flask WTForms. Pomůže automaticky vygenerovat kód pro naše formuláře,
+udělá za nás validaci atp.:
+
+1. Nainstalujeme "pip install Flask-WTF".
+2. Když instalujeme různé balíčky, napišme je do souboru requirements.txt. Příkaz "pip freeze" nám vrátí seznam
+všech nainstalovaných balíků. Zapíšeme ho pomocí terminálu přímo do souboru requirements.txt.
+"pip freeze > requirements.txt"
+

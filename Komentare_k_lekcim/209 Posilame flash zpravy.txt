@@ -18,5 +18,3 @@ logout_user, add_article, view_admin. Zprávy zatím vypadají neohrabaně, tedy
 kategorie, např. "alert-danger". Ty můžeme obarvit na červeno, nebo když jde o úspěch, tam na zeleno. Upravím tedy
 template main: doplním do with (with_categories=True) a ve "for" doplním "category,...". List ve "for" upravím takto:
 <li class="{{ category }}"> {{ message }} </li>. Musím upravit i css: doplním formátování "flashes" částí kódu.
-
-4.
