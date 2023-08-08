@@ -3,3 +3,20 @@ https://ux.stackexchange.com/questions/39265/placement-of-flash-growl-notificati
 dokumentácia k flashovaniu: https://flask.palletsprojects.com/en/2.3.x/patterns/flashing/
 
 -------------------------------------------------------------------------------------------------------------------
+1. Flask poskytuje flash zprávy, aby informoval uživatele, co se děje. Uložení do stacku viz flask_1.png. Načtení ze
+stacku viz flask_2.png. Zobrazení zprávy v teplate (render) viz flask_3_render.png. Je-li v app.py redirect na jiný
+ template (viz flask_4_redirect.png) - funguje díky udržování stacku zpráv v session managementu. Zprávy cestují
+ pomocí cookies mezi jednotlivými requesty až to chvíle, kdy zavolám metodu get_messages.
+
+ 2. Změníme hlavní template a tak budeme mít zobrazený obsah na všech stránkách. Před tag <body> dáme
+ {% with messages ... {% endwith %}. With messages: naplním zprávami, které se mi nasbírali ve stacku.
+ "if" jestli nějaké zprávy existují. Když ano, udělám si seznam zpráv "flashes". Projdu všechny zprávy uložené
+ v messages (for) a vytvořím si list, do kterého vložím obsah zprávy. Ukončím for cyklus a if a with.
+
+ 3. V kontroléru app.py naimportuji z flask modul flash. Doplním zprávy do jednotlivých funkcí: login_user,
+logout_user, add_article, view_admin. Zprávy zatím vypadají neohrabaně, tedy doplním v app.py ke zprávám
+kategorie, např. "alert-danger". Ty můžeme obarvit na červeno, nebo když jde o úspěch, tam na zeleno. Upravím tedy
+template main: doplním do with (with_categories=True) a ve "for" doplním "category,...". List ve "for" upravím takto:
+<li class="{{ category }}"> {{ message }} </li>. Musím upravit i css: doplním formátování "flashes" částí kódu.
+
+4.

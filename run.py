@@ -5,11 +5,11 @@ import sys
 
 # kdyz je tento program run.py spusteny jako hlavni, nastavi se promenna __name__ na __main__.
 # Kdybych tento program importoval jako modul v jiném programu, nastavila by se na "run".
-# Níže je uvedena IP adresa mé virtuální linux mašiny 192.168.20.165 (v práci). Doma = 10.0.0.196. 158 je linux doma.
+# Níže je uvedena IP adresa mé virtuální linux mašiny 192.168.20.172 (v práci). Doma = 10.0.0.196. 158 je linux doma.
 
 def start():
     debug = True
-    host = "10.0.0.158"
+    host = "192.168.20.172"
     flask_app.run(host, debug=debug)
 
 
