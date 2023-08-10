@@ -10,7 +10,7 @@ import sys
 
 def start():
     debug = True
-    host = "192.168.20.172"
+    host = "10.0.0.158"
     flask_app.run(host, debug=debug)
 
 

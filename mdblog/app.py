@@ -21,11 +21,12 @@ import os
 flask_app = Flask(__name__)
 
 flask_app.config.from_pyfile("/vagrant/configs/default.py")
+flask_app.config.from_pyfile("/vagrant/configs/development.py")
+
+db.init_app(flask_app)
 
 if "MDBLOG_CONFIG" in os.environ:
     flask_app.config.from_envvar("MDBLOG_CONFIG")
-
-db.init_app(flask_app)
 
 
 ## FORMS
