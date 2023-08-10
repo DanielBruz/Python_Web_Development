@@ -13,3 +13,20 @@ kterých komunikuje frontend s backendem. Funkce pocházejí z HTTP protokolu:
 - PUT
 - DELETE
 Když aplikujeme tyto funkce na naše metody, budou naše URL pěkně organizované. Budeme kompatibilní se zbytkem světa.
+Viz obrázek "Naše URL": localhost neřešíme; about, admin, login, logout máme pořešené metodami GET a POST. Budeme se
+věnovat "article" URL. about, ....., articles aj. jsou tzv. resource nodes, zdrojové uzly.
+
+1.
+..../articles/: GET vrátí seznam článků; POST přidá článek ze seznamu.
+Více viz obrázek "211 - Articles URL".
+
+2. Jak to uděláme viz obrázek "211 - takto to nastavime".
+
+Poznámka_1: známe ještě přístup CRUD (CREATE - READ - UPDATE - DELETE): podstata je stejná; snažíme se mapovat naše
+funkce na 4 základní operace.
+
+!!!
+Poznámka_2: Velmi při backend přípravě pomůže aplikace ARC Tool, který jsme použili v Chromu při přípravě formulářů.
+Backend programátor nemá k dispozici frontend - žádné formuláře ani tlačítka atp., ale potřebuje vidět,
+jak se chovají jeho funkce, než publikuje backend designerům frontendu.
+!!!
