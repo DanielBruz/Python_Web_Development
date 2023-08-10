@@ -1,0 +1,15 @@
+Zaujímavé linky:
+
+    blog o REST api a Flasku: https://blog.miguelgrinberg.com/post/designing-a-restful-api-using-flask-restful
+    Viacej o problematike pomenovania URL: https://restfulapi.net/resource-naming/
+
+--------------------------------------------------------------------------------------------------------------
+Flask RESTful zjednodušuje práci s RESTful API. Existují konvence, jak organizovat URL adresy a jakou funkci mají
+mít na sobě pověsenou. Je to styl architektury webových služeb, které definují 5 základních operací, pomocí
+kterých komunikuje frontend s backendem. Funkce pocházejí z HTTP protokolu:
+- GET
+- POST
+- PATCH
+- PUT
+- DELETE
+Když aplikujeme tyto funkce na naše metody, budou naše URL pěkně organizované. Budeme kompatibilní se zbytkem světa.
