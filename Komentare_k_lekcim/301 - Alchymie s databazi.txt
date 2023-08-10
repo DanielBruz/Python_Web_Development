@@ -1,0 +1,84 @@
+Flask-SQLAlchemy
+Linky k lekcií:
+    Tak trošku o ORM všeobecne: https://en.wikipedia.org/wiki/Object-relational_mapping
+    Stackoverflow je vždy plný zaujímavých odpovedí:
+    https://stackoverflow.com/questions/1279613/what-is-an-orm-and-where-can-i-learn-more-about-it
+    Definovanie modelu: http://flask-sqlalchemy.pocoo.org/2.3/models/
+
+Niektoré funkcie SQLAlchemy:
+
+    delete      : https://docs.sqlalchemy.org/en/20/orm/queryguide/query.html#sqlalchemy.orm.Query.delete
+    filter_by   : https://docs.sqlalchemy.org/en/20/orm/queryguide/query.html#sqlalchemy.orm.Query.filter_by
+    first       : https://docs.sqlalchemy.org/en/20/orm/queryguide/query.html#sqlalchemy.orm.Query.first
+    group_by    : https://docs.sqlalchemy.org/en/20/orm/queryguide/query.html#sqlalchemy.orm.Query.group_by
+    order_by    : https://docs.sqlalchemy.org/en/20/orm/queryguide/query.html#sqlalchemy.orm.Query.order_by
+    exists      : https://docs.sqlalchemy.org/en/20/orm/queryguide/query.html#sqlalchemy.orm.Query.exists
+
+Celá dokumentácia je tu: https://docs.sqlalchemy.org/en/20/index.html#
+
+---------------------------------------------------------------------------------------------------------------
+Vymažeme všechno, co jsme do teď dělali s databází. Bylo to, abychom se učili. Teď to uděláme lépe. A to pomocí
+ORM = Object Relational Mapping. Práce s SQL QUERY je pracná, v Pythonu obvzlášť, tedy budeme s databází pracovat
+jako s normálními třídami a objekty. ORM je objektově orientovaný přístup do databází. Nebudeme dál psát SQL Query,
+ale budeme psát např. article = Articles.query.filter_by(id=3).first()
+Nepotřebujeme jiný jazyk, píšeme v Pythonu, kód je jednodušší, čitelnější. ORM dává optimalizovaný kód pro běh
+databází, jinak to musí být SQL guru, aby optimalizoval SQL query, běžný programátor to nezvládne. ORM pomůže.
+
+Nainstalujeme SQLAlchemy: pip install Flask-SQLAlchemy
+Založím soubor (modul) models.py, který bude obsahovat definice všech databázových objektů.
+Smažeme soubor schema.sql.
+
+Přejdu do kontroleru app.py:
+Smažeme import sqlite3
+Doplním from .models import db (.models je relativní cesta místo mdblog.models = stačí tečka)
+SQLAlchemy musím inicializovat: db.init_app(flask_app) - takto se Alchemy napíchne na instanci flask_app.
+Naimportuji from .models import Article
+Všechny SQLite příkazy změním za nové:
+    "view_articles" - smažu db = get_db() a cur = db.execute("select * from articles order by id desc")
+                    - upravím articles = cur.fetchall() na articles = Article.query.order_by(Article.id.desc())
+    "add_article"   - smažu: db = get_db(); db.execute("insert into articles (title, content) values (?, ?)",
+                        [request.form.get("title"), request.form.get("content")]); db.commit()
+                    - doplním:
+                    new_article = Article(
+                                    title = add_form.title.data,
+                                    content = add_form.content.data)
+                    db.session.add(new_article)
+                    db.session.commit()
+    "view_article"  - smažu db = get_db(); cur = db.execute("select * from articles where id=(?)", [art_id]);
+                        article = cur.fetchone()
+                    - upravím takto: article = Article.query.filter_by(id=art_id).first()
+    "view_article_editor"   - smažu db = get_db(); cur = db.execute("select * from articles where id=(?)", [art_id]);
+                        article = cur.fetchone()
+                            - upravím takto: article = Article.query.filter_by(id=art_id).first()
+                            - upravím toto:         form.title.data = article["title"]
+                                                    form.content.data = article["content"]
+                                        takto:      form.title.data = article.title
+                                                    form.content.data = article.content
+    "edit_article"  - smažu: db = get_db(); cur = db.execute("select * from articles where id=(?)", [art_id]);
+                             article = cur.fetchone()
+                    - upravím takto: article = Article.query.filter_by(id=art_id).first()
+                    - za validací smažu: db.execute("update articles set title=?, content=? where id=?",
+                       [edit_form.title.data, edit_form.content.data, art_id]); db.commit()
+                    - a místo toho doplním:
+                                article.title = edit.form.title.data
+                                article.content = edit.form.content.data
+                                db.session.add(article)
+                                db.session.commit()
+    Smažu:
+            def connect_db
+            def get_db()
+            def close_db
+
+    ## UTILS přejmenuji na ## CLI COMMAND
+
+    "init_db"   - smažu:    db = get_db(); with open("mdblog/schema.sql", "r") as fp:;
+                            db.cursor().executescript(fp.read()); db.commit()
+                - upravím takto: db.create_all(); print("database inicialized")
+
+Přecházím ke konfiguraci:
+    development.py  - zakomentuji: # DATABASE = "/vagrant/blog.db"
+                    - doplním:
+                                    SQLALCHEMY_DATABASE_URI = "sqlite:////vagrant/blog.db"
+                                                            (místo sqlite může být postgre atp.)
+                                    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
