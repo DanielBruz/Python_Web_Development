@@ -13,4 +13,74 @@ udělá za nás validaci atp.:
 2. Když instalujeme různé balíčky, napišme je do souboru requirements.txt. Příkaz "pip freeze" nám vrátí seznam
 všech nainstalovaných balíků. Zapíšeme ho pomocí terminálu přímo do souboru requirements.txt.
 "pip freeze > requirements.txt"
+3. Do app.py si nainstalujeme "from flask_wtf import FlaskForm" (základní třída na vyrváření formulářu, ze které
+budou moje funkce dědit) a příslušné balíčky.
+4. Vytvořím třídy class LoginForm(FlaskForm) a class ArticleForm(FlaskForm). Do "view_login" udělám instanci mého
+formuláře LoginForm - login_form = LoginForm() - a do return podsunem mému templatu form=login_form. V templatu
+login.jinja vyměním naše inputy:
+        <label> username: </label>
+        <input type="text" name="username">
+        a
+        <label> password: </label>
+        <input type="password" name="password">
+
+za:
+        {{ form.username.label }}
+        {{ form.username() }}
+        a
+        {{ form.password.label }}
+        {{ form.password() }}
+
+A doplním token {{ form.csrf_token }}, který ochrání mé formuláře proti "cross-site request forgery". Tímto jsme
+doplnili token do všech našich formulářů a když odešlu formulář, tak WTForms zkontroluje, je-li formulář validní.
+5. WTForms poskytuje jednoduché validace, které použijeme při odeslání našeho formuláře. Do funkce "login_user"
+doplním login_form = LoginForm(request.form) - zpracuje naše údaje login a password a zapamatují se v porměnné
+login_form. A smažu toto:
+    username = request.form["username"]
+    password = request.form["password"]
+a nemám pak definovanou proměnnou username ani password, tak upravím "if" takto:
+login_form.username.data nám vrátí hodnotu login, krerou zadal uživatel do formuláře. Stejně tak:
+login_form.password.data. Provedu validaci zadávaných dat do formuláře pomocí konstrukce "if login_form.validate():".
+Pomocí "for error in login_form.errors" projdu všechny chyby, které formulář měl.
+6. Uděláme si formuláře pro přidávání nového článku a pro editování existujícího článku: Založím třídu
+class ArticleForm(FlaskForm) a content nevaliduji, protože obsah článku můžu nechat prázdný. Vytvořím si funkci
+view_add_article() pro přidání nového článku. Po zjištění, jestli je uživatel přihlášený si vytvořím formulář form,
+který je zatím prázdný, a vracím ("article_editor.jinja", form=form). Upravím také kontrolér "add_article":
+vložím do něj opět ověření, je-li přihlášený admin. A vytvořím si template "article_editor": zkopíruji si login.jinja a
+upravím na title, content a submit/save. Abych nemusel psát cestu do URL přímo, upravím si i template articles.jinja:
+    {% if "logged" in session %}
+        <a href="{{ url_for("view_add_article") }}">add new article</a>
+    {% endif %}
+7. Editace článku: otevřu si kontrolér app.py a najdu si "view_article(art_id)". Zkopíruji první dva řádky začnu
+vytvářet nový kontrolér view_article_editor(art_id). Do URL přidám /edit/. Ověřím, zda-li je admin přihlášený.
+Jestli takový formulář existuje (if article:), načtu jeho obsah, a přesměruji uživatele na template
+("article_editor.jinja", form=form, article=article)
+ALE: article_editor.jinja slouží i pro zadání nového článku i pro editaci existujícího. Formulář tedy bude posílat
+na dvě URL adresy. Musím ho tedy upravit:
+{% if article %} - zjistí, jestli jsem to templatu poslal instanci articlu. Tedy chci editovat.
+<form action="{{ url_for("edit_article", art_id=article.id) }}" method="post">
+{% else %} - jinak to znamená, že chci zadávat nový článek.
+<form action="{{ url_for("add_article") }}" method="post">
+{% endif %}
+8. Pro editaci si tedy musím vytvořit kontrolér edit_article(art_id). Když článek existuje (if article:), pak
+načtu formulář edit_form = ArticleForm(request.form), kde request.form je odeslaný formulář. A zvaliduji
+if edit_form.validate(), tedy článek existuje, udělám SQL Query a updatuji obsahem z odeslaného formuláře a uložím
+pomocí commit a informuji uživatele pomocí flash zprávy. Ještě musíme upravit template article, aby se mi na stránce
+zobrazovalo tlačítko pro editaci pomocí:
+    {% if "logged" in session %}
+        <a href="{{ url_for("view_article_editor", art_id=article.id) }}">edit article</a>
+    {% endif %}
+9. Vyřeším ještě poslední věc - když do login formuláře zadám třeba nesmyslné heslo, tak mě přesměruje opět
+login, ale já chci, aby mi v zadávaném formuláři zůstalo jméno, které bylo správně. Upravím funkci "login_user" tak,
+že v chybném zadání změním "return redirect(url_for("view_login"))" na
+"return render_template("login.jinja", form=login_form)". Login template tam dostane nějaký formulář, aa ten už bude
+obsahovat nějaké hodnoty.
+
+Poznámka: v edit_article bylo "for error in login_form.errors:" a házelo to chybu v neexistující definici login_form,
+tedy nahradil jsem to za edit_form, které je ve funkci definované a jehož chyby se hledají.
+
+
+
+
+
 

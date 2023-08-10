@@ -3,6 +3,7 @@ from mdblog.app import init_db
 
 import sys
 
+
 # kdyz je tento program run.py spusteny jako hlavni, nastavi se promenna __name__ na __main__.
 # Kdybych tento program importoval jako modul v jiném programu, nastavila by se na "run".
 # Níže je uvedena IP adresa mé virtuální linux mašiny 192.168.20.172 (v práci). Doma = 10.0.0.196. 158 je linux doma.
@@ -19,10 +20,10 @@ def init():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        commad = sys.argv[1]
-        if commad == "start":
+        command = sys.argv[1]
+        if command == "start":
             start()
-        elif commad == "init":
+        elif command == "init":
             init()
     else:
         print("usage:\n\n\trun.py [ start | init ]")
