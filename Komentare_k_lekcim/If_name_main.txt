@@ -1,0 +1,25 @@
+Co znamená if __name__ == "__main__": ?
+
+V Pythonu je speciální proměnná __name__ používána k určení, jestli se daný skript spustí jako hlavní program
+nebo jestli je importován jako modul do jiného skriptu. Když se skript spustí jako hlavní program,
+proměnná __name__ bude mít hodnotu "__main__". Když je skript importován jako modul,
+hodnota __name__ bude odpovídat jménu daného modulu.
+
+Věta if __name__ == "__main__": slouží k oddělení kódu, který se má spustit pouze v případě, že skript běží jako
+hlavní program, od kódu, který se spouští, když je skript importován jako modul do jiného skriptu.
+
+Například, předpokládejme, že máme následující kód v souboru s názvem example.py:
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+if __name__ == "__main__":
+    result = add(3, 5)
+    print(result)
+
+Když spustíme tento soubor example.py, Python nastaví proměnnou __name__ na hodnotu "__main__", a proto se vytiskne
+výsledek 8. Pokud bychom ale tento soubor importovali jako modul do jiného skriptu, například import example,
+kód uvnitř if __name__ == "__main__": by se nevykonal, protože tentokrát bude __name__ mít hodnotu "example",
+která odpovídá názvu našeho modulu.

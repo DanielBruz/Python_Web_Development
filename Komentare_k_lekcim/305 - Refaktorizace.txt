@@ -1,0 +1,20 @@
+Pre zopakovanie:
+
+    Ako fungujú python moduly: https://docs.python.org/3/tutorial/modules.html
+    Niečo o dekorátoroch: https://www.thecodeship.com/patterns/guide-to-python-function-decorators/
+
+--------------------------------------------------------------------------------------------------------------
+Provedeme refaktorizaci naší aplikace pomocí blueprintů. Snažíme se o uspořádaný elegantní kód.
+Rozdělím appku na 3 části:
+    - main: zde budou všeobecné části
+    - blog (articly)
+    - admin (části administrátorského rozhraní)
+
+Tyhle 3 části budou fungovat jako blueprinty.
+Do mdblog: adresáře mod_admin, mod_main, mod_blog.
+
+mod_main: založím controller.py a přesunem tam importy a view_welcome_page a view_about
+mod_blog: založím controller.py a přesunem tam také importy a view_articles a view_article
+mod_admin: založím controller.py a přesunem tam také importy a ostatní funkce mimo init_db().
+
+
