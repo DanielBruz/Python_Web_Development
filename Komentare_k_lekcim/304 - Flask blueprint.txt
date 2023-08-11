@@ -1,0 +1,53 @@
+Užitočné linky:
+
+    Dokumentácia flasku: https://flask.palletsprojects.com/en/2.3.x/blueprints/
+    Blueprinty a template priečinok: https://flask.palletsprojects.com/en/2.3.x/blueprints/#templates
+    Práca s väčšími Flask appkami: https://flask.palletsprojects.com/en/2.0.x/becomingbig//
+
+---------------------------------------------------------------------------------------------------------------------
+app.py kontrolér se stal nepřehledným; uděláme refaktorizaci; použijeme Python moduly a také Flask Blueprinty.
+Blueprint je pro nás nový koncept. Je určený k zjednodušení velkých aplikací. Pomocí nich vytvoříme menší komponenty,
+které registrujeme do hlavní aplikace. Vytvářím instance blueprintů a takovou instanci su umím pověsit třeba na
+subdoménu, nebo umím pověsit více takových instancí na různé URL adresy v rámci jedné appky. Blueprint umím jako
+formičku otisknou na více místech aplikace a po každém "otisku" se vytvoří nová instance, která řeší, co potřebuji.
+
+-----------------
+
+Příklad: uděláme dočasný adresář tmp. Do něj soubor prsten.py. V něm definujeme naší formičku - blueprint třeba takto:
+from flask import Blueprint
+
+formicka_na_prsten = Blueprint("formicka_na_prsten", __name__)  : dáme mu jako argument jen jméno tohoto modulu
+
+@formicka_na_prsten.route("/velikost/")
+def velikost():
+    return "to je velikost prstenu"
+
+@formicka_na_prsten.route("/gravirovani/")
+def gravirovani():
+    return "to je gravirovani prstenu"
+
+Druhý soubor bude např. kovar.py. To je naše Flask aplikace.
+from flask import Flask
+# naimportujeme náš Blueprint:
+from prsten import formicka_na_prsten
+
+flask_app = Flask(__name__)
+
+# vytvoříme jednotlivé instance Blueprintu; do nich otisknu svojí definici (formičku) a pověsím jí na URL:
+flask_app.register_blueprint(formicka_na_prsten, url_prefix="/zlato")
+flask_app.register_blueprint(formicka_na_prsten, url_prefix="/stribro")
+flask_app.register_blueprint(formicka_na_prsten, url_prefix="/titan")
+# Házelo chybu, že jsou instance stejně pojmenované, tedy takto:
+flask_app.register_blueprint(formicka_na_prsten, name="blueprint_2", url_prefix="/stribro")
+flask_app.register_blueprint(formicka_na_prsten, name="blueprint_3", url_prefix="/titan")
+
+#  a spustím svou appku:
+flask_app.run("0.0.0.0")
+
+Spustím jí z adresáře tmp zadáním python kovar.py
+-----------------
+
+
+
+
+
