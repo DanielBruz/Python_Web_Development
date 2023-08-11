@@ -82,3 +82,6 @@ Přecházím ke konfiguraci:
                                                             (místo sqlite může být postgre atp.)
                                     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+Poznámka: Do app.py bylo nutné na začátek doplnit i odkaz na config:
+ flask_app.config.from_pyfile("/vagrant/configs/development.py")
+

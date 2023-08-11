@@ -1,0 +1,47 @@
+Linky k lekcií:
+
+Flask-Alembic is a Flask extension that provides a configurable Alembic migration environment around
+a Flask-SQLAlchemy database.
+
+    Dokumentácia alembic rozšírenia: http://flask-alembic.readthedocs.io/en/stable/
+    Dokumentácia alembic: http://alembic.zzzcomputing.com/en/latest/
+    vytvorenie revízie: http://alembic.zzzcomputing.com/en/latest/cookbook.html#create-revision-migrations
+
+Väčšinu funkcií, ktoré budeš potrebovať, nájdeš tu: http://alembic.zzzcomputing.com/en/latest/cookbook.html
+
+-----------------------------------------------------------------------------------------------------------------
+Po čase třeba potřebujeme udělat nějaké změny ve schématu databáze, třeba  že něco nefunguje, je třeba doplnit
+funkce atp. Co tedy udělám s tou starou databází? Nebudeme jí mazat, přicházet o všechny data, dělat to manuálně atp.
+
+Aplikací Alembic můžu změnit schéma databáze a i se dokážu vrátit k původnímu schématu.
+
+Co se děje je vidět na obrázcích "302 - ...". Vytvořím app 1 a vytvořím db 1. Vytvořím app 2 a db 1 už nemůžu požít,
+tedy mohu udělat script na migraci původní databáze do nové a k ní připojím svou novou aplikaci. Na migrace budeme
+požívat tool Alembic. (pip install alembic) Inicializace do adresáře alembic = alembic init alembic. Vytvoří zároveň
+alembic.ini soubor. alembic/versions je zatím prázdný, ale bude obsahovat všechny naše migrační scripty. MAKO (něco
+jako JINJA) bude vytvářet vlastní migrační scripty. INI se musí nakonfigurovat, protože migrace běží úplně separátně
+mimo Flask:
+sqlalchemy.url = driver://user:pass@localhost/dbname nahradím sqlalchemy.url = sqlite:////vagrant/blog.db
+Alembic teď ví, pro kterou databázi má migrace provádět.
+Kdy začneme dělat migrace? Je to jedno. Migrace provádíme hned, abychom neztratili data ze současné databáze.
+Upravím models.py doplněním další třídy User. unique=True u username znamená, že musí být unikátní.
+
+1. Způsob: (záloha a vytvoření nové databáze)
+Tím pádem používá naše databáze jiný model. Tedy mám db smazat a založit novou s novým modelem? Udělám si zálohu
+blog.db.bak a inicializuji si novou python run.py init = nový prázdný blog.db se stejnou strukturou.
+
+2. Způsob: (migrace současné databáze)
+Vrátím původní .bak na blog.db. Udělám si migrační script, do něho napíšeme, jaká tabulka se má přidat nebo odebrat.
+Chci tedy vytvořit novou revizi, tedy do terminálu s komentářem v uvozovkách zadám:
+alembic revision -m "Create users table"
+Do alembic/versions vytvořil nový script 4ba38911d429_create_users_table.py (down_revision určuje některou předchozí
+databázi, kdybych chtěl downgradovat). V def upgrade() místo pass vytvořím novou tabulku.
+Kdyby jsem se chtěl vrátit zpět, upravím funkci def downgrade(). Místo pass jen dropnu novou tabulku "user".
+Teď aplikuji tuto revizi na mojí databázi a jako argument zadám head. Tedy alembic upgrade head
+
+
+
+
+
+
+
