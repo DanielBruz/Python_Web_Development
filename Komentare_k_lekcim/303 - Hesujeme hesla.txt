@@ -1,0 +1,73 @@
+Linky k lekcií:
+
+    Krátky snippet, ktorý demonštruje hashovanie vo flasku: http://flask.pocoo.org/snippets/54/ (nefunguje)
+    Hash table: https://en.wikipedia.org/wiki/Hash_table
+    Hash function: https://en.wikipedia.org/wiki/Hash_function
+    Rainbow table útok: https://en.wikipedia.org/wiki/Rainbow_table
+
+---------------------------------------------------------------------------------------------------------------------
+V app.py v "login_user" stále používám starý způsob kontroly hesla vůči konfiguraci. To není vhodné, protože uživateli
+bychom měli dát možnost defaultní heslo změnit. Na začátku naimportuji from .models import User
+Původně:
+if login_form.username.data == flask_app.config["USERNAME"] and \
+                login_form.password.data == flask_app.config["PASSWORD"]
+
+Nahradím:
+        user = User.query.filter_by(username = login_form.username.data).first() # vytáhnu si z databáze jméno uživatele
+        if user and user.password == login_form.password.data:  # když takový user existuje a zároveň heslo odpovídá
+                                                                    tomu, co jsme dostali v login formuláři, pokračuji
+                                                                    dále.
+V databázi ale nemáme žádného usera, tedy v prohlížeči databáze doplním usera admin a default heslo admin.
+
+Z default.py smažu: USERNAME = "admin"; PASSWORD = "admin"
+
+Je velmi špatné ukládat hesla do databází jen v plain textové podobě. Každý, kdo se zmocní mé databáze, bude mít
+hesla všech uživatelů. Bezpečnější je předávat hesla hashované a s přidáním soli (ang. salt), což je termín z
+kryptografických algoritmů. Tedy nejdříve si upravíme náš models.py:
+- doplním:  from werkzeug.security import generate_password_hash
+            from werkzeug.security import check_password_hash
+
+            def set_password(self, password):                   # funkce mi uloží do db heslo zahashované
+                self.password = generate_password_hash(password)
+
+            def check_password(self, password):                 # porovná hash s heslem, které jsem dostal jako argument
+                return check_password_hash(self.password, password)
+
+- vrátím se do svého kontroleru app.py aa změním přihlašovací funkci login_user.
+    Vymažu: if user and user.password == login_form.password.data
+    Doplním: if user and user.check_password(login_form.password.data)
+    Zároveň vymažu: session["logged"] = True
+    A uložím si "logged" uživatele do slovníku session pod klíčem "logged": session["logged"] = user.username
+
+Nemám vytvořené funkce pro přidávání uživatele, mazání uživatele, tedy po inicializaci databáze funkcí db_init()
+přidám do této funkce nějakého default uživatele.
+
+        default_user = User(username="admin")
+        default_user.set_password("admin")
+
+        db.session.add(default_user)
+        db.session.commit()
+        print("default user was created")
+
+Smažu si blog.db, stejně v ní nic není, a vytvořím si novou dle nového modelu.
+
+Uděláme ještě malý kontrolér na změnu hesla: do app.py doplním:
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField("Old Password", validators=[InputRequired()])
+    new_password = PasswordField("New Password", validators=[InputRequired()])
+
+A za funkci "login_user" přidám dvě nové funkce: "view_change_password" zpracovávající GET metodu a
+"change_password" zpracovávající POST metodu. První si ověří, je-li uživatel přihlášený, protože jen tak může měnit
+heslo. Vytvořím si formulář form = ChangePasswordForm() a podhodím ho templatu change_password.jinja. Druhá metoda
+zpracovávající POST metodu je složitější: kontrola, zda-li jsem přihlášený; vytvořím si formulář a zpracuji v něm
+data z request.form; zvaliduji tabulku; když je validní, vytáhnu si do user uživatele, kterého jsem si uložil do
+session jako přihlášeného, a zároveň (IF) je-li jeho heslo stejné, jako jeho staré heslo, tak nastavím nové heslo,
+dám ho do session a udělám uložení do db pomocí commit.
+
+Vytvořím si tedy "change_password" template kopií templatu login.jinja. Formulář budu posílat na URL "change_password";
+username a password změním na old_password a new_password. A submit button změním na "change".
+
+Poslední věc: do administrátorského rozhraní admin.jinja dám místo "You must be logged in" toto:
+<a href="{{ url_for("view_change_password") }}">change password</a>
+Tedy uložím si link, abych se snadno dostal na stránku pro změnu hesla.
+
