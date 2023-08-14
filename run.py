@@ -9,7 +9,7 @@ import sys
 # Níže je uvedena IP adresa mé virtuální linux mašiny 192.168.20.172 (v práci). Doma = 10.0.0.196. 158 je linux doma.
 
 def start():
-    debug = True
+    debug = False
     host = "192.168.20.173"
     flask_app.run(host, debug=debug)
 

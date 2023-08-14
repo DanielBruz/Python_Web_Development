@@ -1,0 +1,49 @@
+Linky:
+
+    Werkzeug debugger: https://werkzeug.palletsprojects.com/en/2.3.x/debug/
+    Vlastné chybové stránky: https://flask.palletsprojects.com/en/2.3.x/errorhandling/#custom-error-pages
+    Skvelá ukážka vlastnej chybovej stránky: https://github.com/sjudeusfsd/ (neexistuje)
+
+----------------------------------------------------------------------------------------------------------------
+Deguggování a crashování aplikace. Jak používat debugger, když se objeví chyba a jak dát uživateli smysluplnou
+zprávu.
+Do run.py dáme debug = False a uděláme v aplikaci nějakou chybu.
+
+Debug můžeme zapnout na 2 místech:
+- development.py v proměnné DEGUG nastavíme True.
+- run.py v proměnné debug. run.py má vyšší prioritu, tedy když bude v development False a v run bude True, bude
+debug True.
+
+Opět pustím python run.py start.
+V konzoli se objeví:
+- Restarting with stat = aplikace se bude stále reloadovat, aniž bych jí musel pořád spouštět.
+- Debugger is active!
+- Debugger PIN: např. 179-765-184 = zapamatujeme si ho pro vlastní debuggování.
+Vyjede mi chybový výpis úřímo na dané web stránce a můžeme zadávat nějaké příkazy - k tomu budeme potřebovat PIN.
+Flask poskytuje tímto PINem zabezpečení, protože kdybych provozoval aplikace na veřejně dostupném serveru, tak
+kdokoliv by mohl spustit kód a zmocnit se mých web stránek, mých dat. PIN tomu zabrání.
+Chybová html konzole není součástí Flasku, ale Werkzeug frameworku, který je jádrem Flasku. Werkzeug má zabudovanou
+debug konzoli. Detaily jsou v dokumentaci k Werkzeugu.
+Debugger vypíše celou trasu volání až po chybu. Má svou příkazovou řádku a malou konzoli, kam mohu pomocí pinu zadávat
+příkazy, tisknout si obsah proměnných, vylistovat si URL, podívat se i do cookies atp.
+Po debuggování opět v run.py nastavím debug = False.
+
+-------
+Řešení chyb pomocí dekorátorů: otevřu si app.py a doplním:
+(musím do app.py doplnit i from flask import render_template)
+
+@flask_app.errorhandler(500)
+def internal_server_error(error):
+    return render_template("errors/500.jinja"), 500     # python dá status code 500, ale zobrazuje se určená stránka
+
+@flask_app.errorhandler(404)
+def internal_server_error(error):
+    return render_template("errors/404.jinja"), 404     # stránka nebyla nalezena
+
+Vytvořím adresář templates/errors a doplním soubory 500.jinja a 404.jinja.
+Upravíme v main.css formátování chybového hlášení v bloku .internal_error
+
+
+
+
+

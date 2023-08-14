@@ -76,7 +76,7 @@ def edit_article(art_id):
             flash("Edit saved", "alert-success")
             return redirect(url_for("blog.view_article", art_id=art_id))
         else:
-            for error in login_form.errors:
+            for error in edit_form.errors:
                 flash("{} is missing".format(error), "alert-danger")
             return redirect(url_for("admin.view_login"))
 
