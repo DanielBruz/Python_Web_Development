@@ -1,0 +1,26 @@
+Užitočné linky ohľadom stránkovania:
+
+    Dokumentácia ku paginácií: http://flask-sqlalchemy.pocoo.org/2.3/api/#flask_sqlalchemy.Pagination
+    Iný príklad ku stránkovaniu: https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/pagination/
+
+-------------------------------------------------------------------------------------------------------------------
+Když je na stránce mnoho produktů atp., nezobrazuji je najednou, ale po stránkách = stránkování.
+
+Abychmo to mohli zkoušet, nasypeme do databáze mnoho článků pomocí scriptu fill_db.py
+(musím si nainstalovat pip install loremipsum)
+
+SQLAlchemy má pro stránkování funkcionalitu - když udělám query do databáze, tak místo tahání seznamu článků mi
+vytvoří speciální objekt, který mi tuto práci ulehčí.
+
+Všechno se bude odehrávat v mdblog/mod_blog/controller.py. Řešit to budeme ve funkci "view_articles".
+
+Zkoušíme v příkazové řádce:
+- from mdblog.app import flask_app
+- from mdblog.models import Article (abych mohl pracovat s databází, s kontextem databáze; funkce init_db())
+abych mohl pracovat s databází:
+- ctx = flask_app.app_context()
+- ctx.push()
+- articles = Article.query.order_by(Article.id.desc())
+- print(articles)   # vylistuje všechny články, které mám v databázi.
+
+
