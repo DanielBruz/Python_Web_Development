@@ -16,5 +16,20 @@ Do mdblog: adresáře mod_admin, mod_main, mod_blog.
 mod_main: založím controller.py a přesunem tam importy a view_welcome_page a view_about
 mod_blog: založím controller.py a přesunem tam také importy a view_articles a view_article
 mod_admin: založím controller.py a přesunem tam také importy a ostatní funkce mimo init_db().
+Promažu mod_main, mod_blog, mod_admin.
+
+mod_main: místo importu z Flask upravím na import z Blueprint, doplním main = Blueprint("main", __name__),
+upravím routy z flask_app na main, upravím cesty k teplatům mod_main/.........
+
+Nejříve vyzkouším funkčnost jednoho modulu a pak pokračuji dalšími moduly.
+
+Blueprint formičku mod_main máme hotovou a otiskneme jí do app.py: doplním from .mod_main.controller import main;
+doplním registraci mé aplikace flask_app.register_blueprint(main); nespecifikoval jsem žádný URL prefix,
+protože chci, aby se zpracovávalo "/" a "/about/". Musím projít všechny templaty a změnit "about" a
+"view_welcome_page" na main.view_welcome_page atp.
+
+Trik: abych místo .mod_main.controller import main mohl psát .mod_main import main, udělám si v příslušném adresáři
+soubor __init__.py s konfigurací from .controller import main; stejně tak pro ostatní moduly. Python si toho souboru
+všimne a dají se do něj dát všechny věci, které se mají vykonat, když importuji daný modul.
 
 
